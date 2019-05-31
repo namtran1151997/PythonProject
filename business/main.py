@@ -13,9 +13,6 @@ business_collection = db["business"]
 place_collection = db["places"]
 path = '/home/nam/Downloads/info/'
 
-sql_db = pymysql.connect("localhost", "nam", "namtran115", "thongtincongty", charset='utf8', use_unicode=True)
-cursor = sql_db.cursor()
-
 
 def str_to_permalink(no_accent_title):
     list_word = no_accent_title.split(' ')
@@ -131,26 +128,17 @@ if __name__ == '__main__':
         list_address = business['dia_chi'].split("-")
         address1 = remove_excess_blank(list_address[len(list_address) - 1])
         place1 = place_collection.find_one({'place': {"$regex": address1, "$options": "i"}, 'parent': '0'})
-        # sql = "select * from places where place like '%" + address1 + "%' and parent = " + str(0)
-        # cursor.execute(sql)
-        # place1 = cursor.fetchone()
         if place1 is not None and len(list_address) > 2:
             business_collection.update_one({'_id': business['_id']}, {"$set": {"NID1": place1['NID']}}, upsert=False)
             address2 = remove_excess_blank(list_address[len(list_address) - 2])
             place2 = place_collection.find_one(
                 {'place': {"$regex": address2, "$options": "i"}, 'parent': place1["NID"]})
-            # sql = "select * from places where place like '%" + address2 + "%' and parent = " + place1[1]
-            # cursor.execute(sql)
-            # place2 = cursor.fetchone()
             if place2 is not None and len(list_address) > 3:
                 business_collection.update_one({'_id': business['_id']}, {"$set": {"NID2": place2['NID']}},
                                                upsert=False)
                 address3 = remove_excess_blank(list_address[len(list_address) - 3])
                 place3 = place_collection.find_one(
                     {'place': {"$regex": address3, "$options": "i"}, 'parent': place2["NID"]})
-                # sql = "select * from places where place like '%" + address3 + "%' and parent = " + place2[1]
-                # cursor.execute(sql)
-                # place3 = cursor.fetchone()
                 if place3 is not None:
                     business_collection.update_one({'_id': business['_id']}, {"$set": {"NID3": place3['NID']}},
                                                    upsert=False)

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/brickset-scraper.iml" filepath="$PROJECT_DIR$/.idea/brickset-scraper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/crawl_insta.iml" filepath="$PROJECT_DIR$/.idea/crawl_insta.iml" />
     </modules>
   </component>
 </project>
